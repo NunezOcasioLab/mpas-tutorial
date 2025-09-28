@@ -19,7 +19,8 @@ or as the dynamic core only[^c].
 
 ## History
 
-Skamarock...
+https://doi.org/10.1175/MWR-D-10-05056.1
+https://doi.org/10.1175/MWR-D-11-00215.1
 
 ## Meshes
 
@@ -28,7 +29,7 @@ Skamarock...
 :width: 300px
 ```
 
-What makes MPAS special is its use of unstructured Voronoi meshes on the sphere,
+What makes MPAS special is its use of unstructured Voronoi meshes on the sphere (SCVT),
 including C-grid staggering.
 
 Horizontal velocity components are defined normal to the cell edges,
