@@ -1,4 +1,4 @@
 ---
 title: Build
-subtitle: Building MPAS on NSF NCAR Derecho.
+subtitle: Building MPAS on NSF NCAR Derecho
 ---

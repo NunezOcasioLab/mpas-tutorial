@@ -12,3 +12,18 @@ dependencies:
   - jupyter_server
   - nodeenv >=1.9.1
   - platformdirs >=4.2.2
+  #
+  # Viz examples
+  - cartopy
+  - geopandas
+  - geovista
+  - jupyterlab
+  - lonboard
+  - matplotlib-base
+  - netcdf4
+  - numba
+  - numpy
+  - pandas
+  - pyvista
+  - xarray
+  - uxarray >=2025.09.0
