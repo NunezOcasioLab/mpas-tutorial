@@ -23,5 +23,5 @@ jupyter book start
 For deployment (generates static HTML files in `_build/html/`):
 
 ```bash
-jupyter book build .
+jupyter book build --html
 ```
