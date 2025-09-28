@@ -10,9 +10,12 @@ e.g. as the atmosphere component[^b]
 or as the dynamic core only[^c].
 
 [^a]: including ocean and sea-ice, used [in E3SM](https://docs.e3sm.org/E3SM/MPAS-Ocean/)
+
 [^b]: e.g. [MPAS-CMAQ](https://doi.org/10.5194/gmd-17-7855-2024), MPAS-Hydro (in development)
-[^c]: e.g. [in CESM](https://sima.ucar.edu/applications/v0/mpas-cesm),
-  [planned](https://ufs.epic.noaa.gov/wp-content/uploads/2024/03/Integration-of-MPAS-Dycore-into-UFS.pdf) for UFS as an alternative to FV3
+
+[^c]:
+    e.g. [in CESM](https://sima.ucar.edu/applications/v0/mpas-cesm),
+    and [planned](https://ufs.epic.noaa.gov/wp-content/uploads/2024/03/Integration-of-MPAS-Dycore-into-UFS.pdf) for UFS as an alternative to FV3
 
 ## History
 
@@ -38,10 +41,10 @@ vorticity is an example of a dual mesh variable.
 
 ## Links
 
-* MPAS project website: <https://mpas-dev.github.io/>
-* MPAS-A landing page: <https://www2.mmm.ucar.edu/projects/mpas/site/index.html>
-* MPAS mesh spec document: <https://mpas-dev.github.io/files/documents/MPAS-MeshSpec.pdf>
-* MPAS-A tech note (in development): <https://www2.mmm.ucar.edu/projects/mpas/mpas_website_linked_files/MPAS-A_tech_note.pdf>
-* HTML user guide quick start: <https://www2.mmm.ucar.edu/projects/mpas/site/documentation/users_guide/quick_start.html>
-* PDF user guide: <https://www2.mmm.ucar.edu/projects/mpas/mpas_atmosphere_users_guide_8.3.0.pdf>
-* MPAS official virtual tutorial material: <https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/>
+- MPAS project website: <https://mpas-dev.github.io/>
+- MPAS-A landing page: <https://www2.mmm.ucar.edu/projects/mpas/site/index.html>
+- MPAS mesh spec document: <https://mpas-dev.github.io/files/documents/MPAS-MeshSpec.pdf>
+- MPAS-A tech note (in development): <https://www2.mmm.ucar.edu/projects/mpas/mpas_website_linked_files/MPAS-A_tech_note.pdf>
+- HTML user guide quick start: <https://www2.mmm.ucar.edu/projects/mpas/site/documentation/users_guide/quick_start.html>
+- PDF user guide: <https://www2.mmm.ucar.edu/projects/mpas/mpas_atmosphere_users_guide_8.3.0.pdf>
+- MPAS official virtual tutorial material: <https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/>
