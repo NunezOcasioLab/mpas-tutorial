@@ -1,0 +1,19 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: a2821406-199d-496f-88c4-adf5b79ba0b0
+  title: MPAS Tutorial
+  description: A mini tutorial for standalone MPAS-A
+  keywords: [MPAS, MPAS-A]
+  authors: [K. M. Núñez Ocasio, Z. Moon]
+  github: https://github.com/NunezOcasioLab/mpas-tutorial
+  # toc:
+  #   - file: README.md
+  #   - file: pages/00-intro.md
+  #   - file: pages/01-setup.md
+  #   - file: pages/02-run.md
+site:
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png
