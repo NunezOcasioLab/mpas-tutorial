@@ -1,0 +1,14 @@
+name: mpas-tutorial
+channels:
+ - conda-forge
+ - nodefaults
+dependencies:
+  - python =3.12
+  - pip
+  #
+  # Jupyter Book v2
+  - ipykernel
+  - jupyter_core
+  - jupyter_server
+  - nodeenv >=1.9.1
+  - platformdirs >=4.2.2
