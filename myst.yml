@@ -9,3 +9,5 @@ project:
   github: https://github.com/NunezOcasioLab/mpas-tutorial
 site:
   template: book-theme
+  options:
+    logo_text: Home
