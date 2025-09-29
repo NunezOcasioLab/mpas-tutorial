@@ -18,6 +18,7 @@ dependencies:
   - geopandas
   - geovista
   - jupyterlab
+  - jupyterlab-myst
   - lonboard
   - matplotlib-base
   - netcdf4
