@@ -4,8 +4,8 @@ subtitle: Building MPAS on NSF NCAR Derecho
 ---
 
 It's good practice to compile the model in an interactive job,
-to avoid stressing the login nodes,
-_and_ to ensure that nodes detected at build time are the same as those used at run time[^derecho-nodes].
+to avoid stressing the login nodes, which are a shared resource,
+_and_ to ensure that the CPU resources detected at build time are the same as those used at run time[^derecho-nodes].
 
 [^derecho-nodes]:
     On Derecho, the login nodes have the
