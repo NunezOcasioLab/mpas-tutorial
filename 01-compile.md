@@ -3,6 +3,17 @@ title: Build
 subtitle: Building MPAS on NSF NCAR Derecho
 ---
 
+First we need to clone the model repository.
+We will use Kelly's fork, which adds additional vertical levels (based on ERA5)
+and isobaric diagnostics.
+
+```{code} bash
+cd $HOME
+git clone https://github.com/knubez/MPAS-Model.git MPAS-Model_v8.3
+cd $_
+git switch isolevels-v8
+```
+
 It's good practice to compile the model in an interactive job,
 to avoid stressing the login nodes, which are a shared resource,
 _and_ to ensure that the CPU resources detected at build time are the same as those used at run time[^derecho-nodes].
@@ -14,6 +25,18 @@ _and_ to ensure that the CPU resources detected at build time are the same as th
 
 ```bash
 qsub -I -l walltime=3600 -l select=1:ncpus=4:mem=80gb -A UTAM0025 -q develop
+```
+
+```{tip}
+:open: false
+
+NCAR also [provides](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/)
+`qcmd` and `qinteractive` shortcut commands that you can use,
+but the above `qsub` should work on other PBS-based systems as well.
+
+The [`develop` queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues)
+has a 6-hour walltime limit and is intended for testing and development.
+Above we have requested 3600 seconds (1 hour).
 ```
 
 After our session starts, we need to load some modules.
@@ -56,6 +79,9 @@ module load intel/2025.1.0
 module load cray-mpich/8.1.29
 module load parallel-netcdf/1.14.0
 
+# Hack to get pnetcdf working again
+export LD_LIBRARY_PATH="/glade/u/apps/derecho/24.12/spack/opt/spack/parallel-netcdf/1.14.0/cray-mpich/8.1.29/oneapi/2025.1.0/vrc7/lib:$LD_LIBRARY_PATH"
+
 # Tell mpifort to use ifx
 export MPICH_FC=ifx
 ```
@@ -64,15 +90,15 @@ export MPICH_FC=ifx
 
 ::::
 
-```{tip}
-NCAR also [provides](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/)
-`qcmd` and `qinteractive` shortcut commands that you can use,
-but the above `qsub` should work on other PBS-based systems as well.
+Select one of the above module sets and save it to a file:
+`~/mpas-modules-intel.sh`.
+Then, load the modules.
 
-The [`develop` queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues)
-has a 6-hour walltime limit and is intended for testing and development.
-Above we have requested 3600 seconds (1 hour).
+```bash
+source ~/mpas-modules-intel.sh
 ```
+
+Run `module list` to verify that the correct modules are loaded.
 
 First we build the model initialization program.
 This is what we use to generate initial conditions and such.

@@ -5,7 +5,17 @@ project:
   title: MPAS Tutorial
   description: A mini tutorial for standalone MPAS-A
   keywords: [MPAS, MPAS-A]
-  authors: [K. M. Núñez Ocasio, Z. Moon]
+  authors:
+    - name: K. M. Núñez Ocasio
+      id: kelly
+      github: knubez
+      email: knunez.ocasio@tamu.edu
+      url: https://sites.google.com/tamu.edu/nunez-ocasio/home
+    - name: Z. L. Moon
+      id: zach
+      github: zmoon
+      email: zmoon@tamu.edu
+      url: https://zmoon.info
   github: https://github.com/NunezOcasioLab/mpas-tutorial
 site:
   template: book-theme
