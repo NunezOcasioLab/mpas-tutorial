@@ -7,15 +7,21 @@ Often, at least in our circles, "MPAS" means the standalone version of MPAS-A.
 But it's important to remember that there are other MPAS component models[^a],
 and MPAS-A has also been used in larger modeling systems,
 e.g. as the atmosphere component[^b]
-or as the dynamic core only[^c].
+or as the dynamical core only[^c].
 
 [^a]: including ocean and sea-ice, used [in E3SM](https://docs.e3sm.org/E3SM/MPAS-Ocean/)
 
-[^b]: e.g. [MPAS-CMAQ](https://doi.org/10.5194/gmd-17-7855-2024), MPAS-Hydro (in development)
+[^b]:
+    e.g. [MPAS-CMAQ](https://doi.org/10.5194/gmd-17-7855-2024),
+    MPAS-Hydro ([in development](https://ral.ucar.edu/news/coming-soon-mpas-hydro)),
+    NOAA GSL MPAS for smoke and dust
 
 [^c]:
     e.g. [in CESM](https://sima.ucar.edu/applications/v0/mpas-cesm),
-    and [planned](https://ufs.epic.noaa.gov/wp-content/uploads/2024/03/Integration-of-MPAS-Dycore-into-UFS.pdf) for UFS as an alternative to FV3
+    part of the [StormSPEED](https://sites.google.com/umich.edu/nsf-stormspeed)
+    CSEM/CAM [dynamical cores comparison](https://sites.google.com/umich.edu/dcmip-2025/models) project,
+    and [planned](https://ufs.epic.noaa.gov/wp-content/uploads/2024/03/Integration-of-MPAS-Dycore-into-UFS.pdf)
+    for UFS as an alternative to FV3
 
 ## History
 
@@ -49,3 +55,4 @@ vorticity is an example of a dual mesh variable.
 - HTML user guide quick start: <https://www2.mmm.ucar.edu/projects/mpas/site/documentation/users_guide/quick_start.html>
 - PDF user guide: <https://www2.mmm.ucar.edu/projects/mpas/mpas_atmosphere_users_guide_8.3.0.pdf>
 - MPAS official virtual tutorial material: <https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/>
+- WRF/MPAS workshop talks: <https://www.mmm.ucar.edu/events/133265/agenda> (2025)
