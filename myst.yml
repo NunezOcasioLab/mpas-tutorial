@@ -21,3 +21,4 @@ site:
   template: book-theme
   options:
     logo_text: Home
+    style: custom.css

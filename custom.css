@@ -1,0 +1,6 @@
+blockquote p {
+  font-weight: normal;
+}
+blockquote em {
+  font-style: initial;
+}
