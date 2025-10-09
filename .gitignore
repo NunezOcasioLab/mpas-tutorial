@@ -211,3 +211,17 @@ _build
 
 # Data files
 x1.*.nc
+
+# Regrid example
+grid.nc
+static.nc
+grid_0to2pi.nc
+scrip.nc
+mpas_scrip.nc
+mpas_esmf.nc
+target_grid.nc
+map_*.nc
+out_*.nc
+
+# NCO temporary files
+*.nc.*.tmp
