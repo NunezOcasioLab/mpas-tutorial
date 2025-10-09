@@ -1,6 +1,7 @@
 ---
 title: Build
 subtitle: Building MPAS on NSF NCAR Derecho
+label: build
 ---
 
 First we need to clone the model repository.

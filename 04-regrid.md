@@ -1,9 +1,12 @@
 ---
 title: Regrid
 subtitle: Tools for regridding MPAS-A output to regular lat-lon grids
+label: regrid
 ---
 
 # Options
+
+(pyremap)=
 
 ## pyremap
 
@@ -43,13 +46,65 @@ provides many facilities for regridding.
 
 ### Examples
 
+On Casper/Derecho:
+
+```bash
+module load nco
+```
+
+Let's use the grid data we downloaded in {ref}`viz`.
+
+```bash
+ln -s x1.2562.grid.nc grid.nc
+ln -s x1.2562.static.nc static.nc
+```
+
+[MPAS-Tools](https://github.com/MPAS-Dev/MPAS-Tools)
+provides multiple ways to convert grid specs in the MPAS format to SCRIP format.
+
+`scrip_from_mpas` is available when you install the `mpas_tools` conda-forge package.
+
+```bash
+# scrip_from_mpas requires [0, 2π) longitudes
+# but our grid file has [-π, π) longitudes
+PI=3.14159265359
+ncap2 -s "where(lonCell < 0) lonCell = lonCell + 2*$PI;
+where(lonVertex < 0) lonVertex = lonVertex + 2*$PI;
+where(lonEdge < 0) lonEdge = lonEdge + 2*$PI" grid.nc grid_0to2pi.nc
+
+# Create the SCRIP file (scrip.nc by default, use -s to change)
+scrip_from_mpas -m grid_0to2pi.nc
+```
+
+`mpas2esmf` is not included in the conda-forge package
+(you must compile it from within [this directory](https://github.com/MPAS-Dev/MPAS-Tools/tree/master/mesh_tools/mpas2esmf)).
+You must supply a grid file with `sphere_radius` 1,
+but unlike `scrip_from_mpas`, it's fine with negative longitudes.
+
+```bash
+# Create SCRIP file (mpas_scrip.nc) and ESMF grid file (mpas_esmf.nc)
+mpas2esmf grid.nc "480-km" "$(date -I)"
+```
+
+Note that the results may be a bit different.
+For example, `mpas2esmf` seems to set `grid_corners` to the max `nEdgesOnCell` (generally 6),
+while the `scrip_from_mpas` SCRIP has `grid_corners` consistent with the original `maxEdges` dim,
+and these differences cause NCO to interpret them slightly differently.
+The `mpas2esmf` result also includes `rrfac` (regional refinement factor).
+
 ```bash
 # Automatically generate a 1-degree target grid
 # Generate weights with TempestRemap conservative monotone algorithm
-ncremap -m map.nc -s mpas_source_grid.nc -g target_grid.nc -G latlon=180,360 -a traave
+ncremap -m map_con.nc -s scrip.nc -g target_grid.nc -G latlon=180,360 -a traave
 
-# Apply weights
-ncremap -P mpasa -m map.nc in.nc out.nc
+# Apply weights, selecting a specific variable (terrain height from the static file)
+ncremap -P mpasa -m map_con.nc -v ter static.nc out_con.nc
+```
+
+```bash
+# Use the same target grid and regrid using ESMF bilinear interpolation
+ncremap -m map_bil.nc -s scrip.nc -g target_grid.nc -a bilinear
+ncremap -P mpasa -m map_bil.nc -v ter static.nc out_bil.nc
 ```
 
 ### Notes
@@ -124,5 +179,6 @@ convert_mpas x1.10242.init.nc diag.*.nc
 Otherwise:
 
 - [](#pyremap) for generating weights
-  - Generate both conservative and bilinear weights to be used for different variables
+  - Generate both conservative and bilinear weights to be used for different variables,
+    nearest-neighbor can be useful as well
 - [](#pyremap) for applying weights

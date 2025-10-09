@@ -1,6 +1,7 @@
 ---
 title: Run
 subtitle: Running MPAS on NSF NCAR Derecho
+label: run
 ---
 
 # Global
