@@ -16,6 +16,13 @@ It helps you compute weights (using `ESMF_RegridWeightGen` or the MOAB CLI[^mbcl
 and apply them,
 and works with global and limited-area meshes.
 
+pyremap [is available](https://mpas-dev.github.io/pyremap/2.1.0/quick_start.html#installation) on conda-forge.
+
+```{include} pyremap-example.py
+:lang: python
+
+```
+
 ## NCO
 
 [NCO](https://nco.sourceforge.net/) [ncremap](https://nco.sourceforge.net/nco.html#ncremap-netCDF-Remapper)
@@ -171,6 +178,8 @@ nlon=59
 
 convert_mpas x1.10242.init.nc diag.*.nc
 ```
+
+Note that the start/end points are cell edges, not centers.
 
 # Recommendations
 
