@@ -14,7 +14,8 @@ or as the dynamical core only[^c].
 [^b]:
     e.g. [MPAS-CMAQ](https://doi.org/10.5194/gmd-17-7855-2024),
     MPAS-Hydro ([in development](https://ral.ucar.edu/news/coming-soon-mpas-hydro)),
-    NOAA GSL MPAS for smoke and dust
+    NOAA GSL MPAS for smoke and dust,
+    [MPAS-GOCART](https://www2.mmm.ucar.edu/wrf/users/workshops/WS2025/presentations/7_Fowler.pdf)
 
 [^c]:
     e.g. [in CESM](https://sima.ucar.edu/applications/v0/mpas-cesm),
