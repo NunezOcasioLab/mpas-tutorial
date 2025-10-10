@@ -18,10 +18,14 @@ and works with global and limited-area meshes.
 
 pyremap [is available](https://mpas-dev.github.io/pyremap/2.1.0/quick_start.html#installation) on conda-forge.
 
+In the below example, we use the data we downloaded in {ref}`viz`.
+
 ```{include} pyremap-example.py
 :lang: python
 
 ```
+
+(nco)=
 
 ## NCO
 
@@ -33,11 +37,11 @@ provides many facilities for regridding.
   the TempestRemap CLI[^trcli],
   the MOAB CLI[^mbcli], or internal routines[^nco-internal]
   - ERWG and MOAB can use multiple processors with `--mpi_nbr=<n>`
-- To apply weights:
-  - `ncks -m map.nc --rgr`
+- To apply weights, there are multiple ways, but `ncremap` is the most straightforward:
   - `ncremap -P mpasa -m map.nc in.nc out.nc`
     - `-P mpasa` (not always necessary) was added in NCO v5.2.6 (2024-06-20)
   - `ncremap --pdq=Time,nVertLevels,nIsoLevelsT,nIsoLevelsZ,nCells -m map.nc in.nc out.nc`
+  - `ncks -m map.nc --rgr` (a variant of this command gets called by `ncremap`)
 
 [^trcli]:
     `GenerateOverlapMesh` (overlay the source and destination meshes and compute intersections),
@@ -50,6 +54,8 @@ provides many facilities for regridding.
 [^nco-internal]:
     `-a nco_con` (first-order conservative),
     `-a nco_idw` (inverse distance weighting, can extrapolate)
+
+(nco-examples)=
 
 ### Examples
 
@@ -69,7 +75,18 @@ ln -s x1.2562.static.nc static.nc
 [MPAS-Tools](https://github.com/MPAS-Dev/MPAS-Tools)
 provides multiple ways to convert grid specs in the MPAS format to SCRIP format.
 
-`scrip_from_mpas` is available when you install the `mpas_tools` conda-forge package.
+`scrip_from_mpas` is available when you install the `mpas_tools` conda-forge package [^cf].
+
+[^cf]: On Casper/Derecho:
+
+    ```bash
+    module load conda/latest
+    ```
+
+    ```bash
+    mamba create -n mpas_tools -c conda-forge mpas_tools
+    conda activate mpas_tools
+    ```
 
 ```bash
 # scrip_from_mpas requires [0, 2π) longitudes
@@ -143,6 +160,28 @@ or [MOAB](https://sigma.mcs.anl.gov/category/moab/) directly instead of through 
 
 ## CDO
 
+On Casper/Derecho:
+
+```bash
+module load cdo
+```
+
+Global regridding with CDO is straightforward.
+As in the [NCO example](#nco-examples), we can use the data from {ref}`viz`,
+aliased to `grid.nc` and `static.nc`.
+
+```bash
+# Generate weights for a 0.25-degree regular lat-lon grid (SCRIP format)
+# (lon centers 0--359.75; lat centers -89.875--89.875)
+cdo gencon,r1440x720 -setgrid,mpas:grid.nc -selgrid,1 grid.nc map_con.nc
+
+# Apply weights
+cdo remap,r1440x720,map_con.nc -selvar,ter -setgrid,mpas:grid.nc static.nc out_con.nc
+```
+
+`genbil` (bilinear) doesn't support unstructured grids.
+But `gennn` (nearest neighbor) does.
+
 (convert_mpas)=
 
 ## convert_mpas
@@ -154,7 +193,22 @@ to convert to a 0.5°x0.5° regular lat-lon grid (or other rectangular lat-lon g
     Provided by the MPAS-A lead developer,
     and used in [the official virtual tutorial](https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/).
 
+To obtain it:
+
+```bash
+git clone https://github.com/mgduda/convert_mpas
+cd convert_mpas
+make
+export PATH="$PWD:$PATH"
+```
+
+Now we can use the `convert_mpas` command[^rc].
+
+[^rc]: For the current shell session. Add an `export` line to your `.bashrc` to make it permanent.
+
 ### Examples
+
+Here we use the data from our global run in {ref}`run`.
 
 ```bash
 # Default 0.5-degree global, one file
