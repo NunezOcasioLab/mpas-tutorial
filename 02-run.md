@@ -30,7 +30,7 @@ ln -s /glade/campaign/mmm/wmr/mpas_tutorial/meshes/x1.10242.graph.info.part.128 
 ln -s ~/MPAS-Model_v8.3/atmosphere_model .
 cp ~/MPAS-Model_v8.3/namelist.atmosphere .
 cp ~/MPAS-Model_v8.3/streams.atmosphere .
-cp ~/MPAS-Model_v8.3/stream_list.atmosphere.*
+cp ~/MPAS-Model_v8.3/stream_list.atmosphere.* .
 cp ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
 ```
 
@@ -121,6 +121,8 @@ qstat -u $USER -f -w
 
 :::
 
+(global-ic)=
+
 ## Initial conditions
 
 **20 September 2017, 00 UTC**, the day when Hurricane Maria made landfall in Puerto Rico.
@@ -132,7 +134,7 @@ can be used to create intermediate files from the NSF NCAR RDA ERA5 netCDF files
 But here, to simplify things, we will use an intermediate file that we have already created.
 
 ```bash
-ln -s /glade/u/home/zmoon/mpas-tutorial/FILE:2017-09-20_00 .
+ln -s /glade/u/home/zmoon/mpas-tutorial/global/FILE:2017-09-20_00 .
 ```
 
 :::{tip}
@@ -166,7 +168,7 @@ Update `namelist.init_atmosphere` with these settings:
 
 Then, in `streams.init_atmosphere`, set the input file name template to `x1.10242.static.nc`
 (the static file we just created),
-and the output file name template to `x1.10242.init.nc`.
+and the output file name template to `Africa.init.nc`.
 
 Submit the job.
 
@@ -259,4 +261,95 @@ We will use the limited-area domain as in:
 
 created by rotating, moving, and cropping the `x5.8060930` global 15–3-km elliptical refinement mesh.
 
+## Run directory
+
+As before, we first build out our run directory.
+We use the same MPAS-Model directory, but copy a different mesh.
+
+```{code} bash
+cd $SCRATCH
+mkdir mpas-africa
+cd $_
+
+ln -s /glade/u/home/zmoon/mpas-tutorial/africa/Africa.static.nc .
+
+ln -s /glade/u/home/zmoon/mpas-tutorial/africa/Africa.graph.info.part.240 .
+ln -s ~/MPAS-Model_v8.3/init_atmosphere_model .
+cp ~/MPAS-Model_v8.3/namelist.init_atmosphere .
+cp ~/MPAS-Model_v8.3/streams.init_atmosphere .
+
+ln -s /glade/u/home/zmoon/mpas-tutorial/africa/Africa.graph.info.part.5400 .
+ln -s ~/MPAS-Model_v8.3/atmosphere_model .
+cp ~/MPAS-Model_v8.3/namelist.atmosphere .
+cp ~/MPAS-Model_v8.3/streams.atmosphere .
+cp ~/MPAS-Model_v8.3/stream_list.atmosphere.* .
+cp ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
+```
+
+Note that we link a static file instead of a grid file
+(we're skipping static file creation in this example).
+
+## Initial conditions
+
+**12 September 2017, 00 UTC**, the day when the AEW that would become Hurricane Maria left the African coast.
+
+As in [the global example](#global-ic), we will link the needed WPS intermediate file
+(and those we need for [the BCs](#africa-bc) as well).
+
+```bash
+ln -s /glade/derecho/scratch/zmoon/mpas-africa/FILE:* .
+```
+
+Update `namelist.init_atmosphere` with these settings:
+
+| parameter                                       | value                       |
+| ----------------------------------------------- | --------------------------- |
+| `nhyd_model.config_init_case`                   | `7`                         |
+| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
+| `data_sources.config_met_prefix`                | `'FILE'`                    |
+| `preproc_stages.config_static_interp`           | `false`                     |
+| `preproc_stages.config_native_gwd_static`       | `false`                     |
+| `preproc_stages.config_native_gwd_gsl_static`   | `false`                     |
+| `preproc_stages.config_vertical_grid`           | `true`                      |
+| `preproc_stages.config_met_interp`              | `true`                      |
+| `preproc_stages.config_input_sst`               | `false`                     |
+| `preproc_stages.config_frac_seaice`             | `true`                      |
+| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+Then, in `streams.init_atmosphere`, set the input file name template to `Africa.static.nc`
+and the output file name template to `Africa.init.nc`.
+
+TODO: job
+
+(africa-bc)=
+
 ## Boundary conditions
+
+Update `namelist.init_atmosphere` with these settings:
+
+| parameter                                       | value                       |
+| ----------------------------------------------- | --------------------------- |
+| `nhyd_model.config_init_case`                   | `9`                         |
+| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
+| `nhyd_model.config_stop_time`                   | `'2017-09-14_23:00:00'`     |
+| `data_sources.config_met_prefix`                | `'FILE'`                    |
+| `preproc_stages.config_static_interp`           | `false`                     |
+| `preproc_stages.config_native_gwd_static`       | `false`                     |
+| `preproc_stages.config_native_gwd_gsl_static`   | `false`                     |
+| `preproc_stages.config_vertical_grid`           | `true`                      |
+| `preproc_stages.config_met_interp`              | `true`                      |
+| `preproc_stages.config_input_sst`               | `false`                     |
+| `preproc_stages.config_frac_seaice`             | `true`                      |
+| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+The differences being that now we are using init case 9,
+and we need to set a stop time.
+
+Then, in `streams.init_atmosphere`, set the input file name template to `Africa.init.nc`
+and the LBC output interval to `1:00:00` (hourly).
+
+TODO: job
+
+## Run the model
+
+TODO: edit diag streams to include isobaric variables
