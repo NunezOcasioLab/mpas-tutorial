@@ -308,7 +308,7 @@ cp ~/MPAS-Model_v8.3/stream_list.atmosphere.* .
 ln -s ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
 ```
 
-Note that we link a static file instead of a grid file
+Note that we link a _regional_ **static** file instead of a **grid** file
 (we're skipping static file creation in this example).
 See Section 5.1 of the [official virtual tutorial](https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/)
 for some guidance on creating regional static files.
@@ -385,7 +385,7 @@ Update `namelist.init_atmosphere` with these settings:
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_init_case`                   | `9`                         |
 | `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
-| `nhyd_model.config_stop_time`                   | `'2017-09-14_23:00:00'`     |
+| `nhyd_model.config_stop_time`                   | `'2017-09-13_11:00:00'`     |
 | `data_sources.config_met_prefix`                | `'FILE'`                    |
 | `preproc_stages.config_static_interp`           | `false`                     |
 | `preproc_stages.config_native_gwd_static`       | `false`                     |
@@ -423,7 +423,7 @@ Update `namelist.atmosphere` with these settings:
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_dt`                          | `13.0`                      |
 | `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
-| `nhyd_model.config_run_duration`                | `'3_00:00:00'`              |
+| `nhyd_model.config_run_duration`                | `'1_12:00:00'`              |
 | `nhyd_model.config_radtlw_interval`             | `'00:30:00'`                |
 | `nhyd_model.config_radtsw_interval`             | `'00:30:00'`                |
 | `physics.config_physics_suite`                  | `'convection_permitting'`   |
@@ -438,7 +438,7 @@ and we have selected the convection-permitting physics suite.
 Then, in `streams.atmosphere`
 
 - set the input file name template to `Africa.init.nc`
-- set the restart output interval to `3_00:00:00` (the end of our run)
+- set the restart output interval to `1_12:00:00` (the end of our run)
 - set the diagnostics output interval to `1:00:00` (hourly)
 - set the LBC input interval to `1:00:00` to match our LBC files
 
