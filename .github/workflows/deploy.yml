@@ -23,17 +23,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Setup Pages
+      - name: Set up Pages
         uses: actions/configure-pages@v5
 
-      - name: Setup Python
+      - name: Set up Python
         uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yml
           cache-environment: true
 
-      - name: Build HTML Assets
-        run: jupyter-book build --html --execute --ci
+      - name: Build HTML
+        run: jupyter-book build --html --execute --strict --ci
         shell: micromamba-shell {0}
 
       - name: Upload artifact

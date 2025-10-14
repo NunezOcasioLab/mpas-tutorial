@@ -1,7 +1,7 @@
 ---
 title: Regrid
 subtitle: Tools for regridding MPAS-A output to regular lat-lon grids
-label: regrid
+label: page:regrid
 ---
 
 # Options
@@ -18,7 +18,7 @@ and works with global and limited-area meshes.
 
 pyremap [is available](https://mpas-dev.github.io/pyremap/2.1.0/quick_start.html#installation) on conda-forge.
 
-In the below example, we use the data we downloaded in {ref}`viz`.
+In the below example, we use the data we downloaded in {ref}`page:viz`.
 
 ```{include} pyremap-example.py
 :lang: python
@@ -65,7 +65,7 @@ On Casper/Derecho:
 module load nco
 ```
 
-Let's use the grid data we downloaded in {ref}`viz`.
+Let's use the grid data we downloaded in {ref}`page:viz`.
 
 ```bash
 ln -s x1.2562.grid.nc grid.nc
@@ -167,7 +167,7 @@ module load cdo
 ```
 
 Global regridding with CDO is straightforward.
-As in the [NCO example](#nco-examples), we can use the data from {ref}`viz`,
+As in the [NCO example](#nco-examples), we can use the data from {ref}`page:viz`,
 aliased to `grid.nc` and `static.nc`.
 
 ```bash
@@ -208,7 +208,7 @@ Now we can use the `convert_mpas` command[^rc].
 
 ### Examples
 
-Here we use the data from our global run in {ref}`run`.
+Here we use the data from our global run in {ref}`page:run`.
 
 ```bash
 # Default 0.5-degree global, one file

@@ -17,6 +17,11 @@ project:
       email: zmoon@tamu.edu
       url: https://zmoon.info
   github: https://github.com/NunezOcasioLab/mpas-tutorial
+  error_rules:
+    - rule: link-resolves
+      severity: ignore
+      keys:
+        - https://sigma.mcs.anl.gov/category/moab/ # 403
 site:
   template: book-theme
   options:

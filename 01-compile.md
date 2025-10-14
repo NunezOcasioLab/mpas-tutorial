@@ -1,7 +1,7 @@
 ---
 title: Build
 subtitle: Building MPAS on NSF NCAR Derecho
-label: build
+label: page:build
 ---
 
 First we need to clone the model repository.
@@ -14,6 +14,8 @@ git clone https://github.com/knubez/MPAS-Model.git MPAS-Model_v8.3
 cd $_
 git switch isolevels-v8
 ```
+
+(p:interactive-job)=
 
 It's good practice to compile the model in an interactive job,
 to avoid stressing the login nodes, which are a shared resource,
@@ -115,4 +117,10 @@ we can build the main program.
 make -j4 intel CORE=atmosphere
 ```
 
-If this completes successfully, we should have an `atmosphere_model` executable.
+If this completes successfully, we should have an `atmosphere_model` executable
+(and `build_tables`)
+and we can leave our interactive job.
+
+```bash
+exit
+```

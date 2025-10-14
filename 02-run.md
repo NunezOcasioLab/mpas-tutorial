@@ -1,7 +1,7 @@
 ---
 title: Run
 subtitle: Running MPAS on NSF NCAR Derecho
-label: run
+label: page:run
 ---
 
 # Global
@@ -267,6 +267,8 @@ A successful run will produce various model output files:
 - `history.*.nc` (2- and 3-d prognostic and diagnostic fields; specified in `stream_list.atmosphere.output`)
 - `restart.*.nc` (checkpoints of the model state that we can use for a warm start)
 
+(sec:run-regional)=
+
 # Regional
 
 We will use the limited-area domain as in:
@@ -280,10 +282,30 @@ created by rotating, moving, and cropping the `x5.8060930` global 15–3-km elli
 
 ```{figure} africa-domain.png
 
-Made with [GeoVista](viz#geovista).
+Made with {ref}`GeoVista <sec:geovista>`.
 ```
 
 ## Run directory
+
+First we need to generate the tables for the Thompson microphysics scheme.
+As when we {ref}`built <p:interactive-job>` the model, we can use an interactive job.
+
+```bash
+qsub -I -l walltime=3600 -l select=1:ncpus=2:mem=16gb -A UTAM0025 -q develop
+```
+
+```bash
+source ~/mpas-modules-intel.sh
+
+cd ~/MPAS-Model_v8.3
+
+./build_tables
+
+mv MP_THOMPSON_* src/core_atmosphere/physics/physics_wrf/files/
+ln -s src/core_atmosphere/physics/physics_wrf/files/MP_THOMPSON_* .
+
+exit
+```
 
 As before, we first build out our run directory.
 We use the same MPAS-Model directory, but copy a different mesh.
@@ -334,6 +356,7 @@ Update `namelist.init_atmosphere` with these settings:
 | `nhyd_model.config_init_case`                   | `7`                         |
 | `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
 | `data_sources.config_met_prefix`                | `'FILE'`                    |
+| `data_sources.config_noahmp_static`             | `false` [^noahmp]           |
 | `preproc_stages.config_static_interp`           | `false`                     |
 | `preproc_stages.config_native_gwd_static`       | `false`                     |
 | `preproc_stages.config_native_gwd_gsl_static`   | `false`                     |
@@ -344,6 +367,13 @@ Update `namelist.init_atmosphere` with these settings:
 | `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
 
 :::
+
+[^noahmp]:
+    Our static file was created with v8.0, before the Noah-MP land model was added to MPAS-A (v8.2),
+    so we [have to](https://forum.mmm.ucar.edu/threads/3-km-static-file-created-by-create_region-doesnt-have-nsoilcomps-as-a-dimension-and-results-in-error-when-creating-initial-conditions.21865/post-54423)
+    disable collecting input fields for Noah-MP.
+
+    This is a hidden option; add it to the end of its section (`data_sources`).
 
 Then, in `streams.init_atmosphere`, set the input file name template to `Africa.static.nc`
 and the output file name template to `Africa.init.nc`.
@@ -378,15 +408,16 @@ qsub init.pbs
 
 Update `namelist.init_atmosphere` with these settings:
 
-:::{table} `namelist.init_atmosphere` settings for BC generation for the regional example
+:::{table} `namelist.init_atmosphere` settings for LBC generation for the regional example
 :label: africa-namelist-bc
 
 | parameter                                       | value                       |
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_init_case`                   | `9`                         |
 | `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
-| `nhyd_model.config_stop_time`                   | `'2017-09-13_11:00:00'`     |
+| `nhyd_model.config_stop_time`                   | `'2017-09-13_12:00:00'`     |
 | `data_sources.config_met_prefix`                | `'FILE'`                    |
+| `data_sources.config_fg_interval`               | `3600` (seconds)            |
 | `preproc_stages.config_static_interp`           | `false`                     |
 | `preproc_stages.config_native_gwd_static`       | `false`                     |
 | `preproc_stages.config_native_gwd_gsl_static`   | `false`                     |
@@ -398,11 +429,12 @@ Update `namelist.init_atmosphere` with these settings:
 
 :::
 
-👆 The differences are that now we are using init case 9,
+👆 Compared to {ref}`africa-namelist-ic`, the differences are that now we are using init case 9,
 and we need to set a stop time.
 
-Then, in `streams.init_atmosphere`, set the input file name template to `Africa.init.nc`
-and the LBC output interval to `1:00:00` (hourly).
+Then, in `streams.init_atmosphere`, set the input file name template to `Africa.init.nc`,
+the output file name template to `foo.nc` (unused, but it can't be the same as others),
+and the LBC output interval to `1:00:00` (hourly; consistent with our `config_fg_interval`).
 
 Submit the job (same one we used to create the initial conditions):
 
@@ -419,19 +451,28 @@ Update `namelist.atmosphere` with these settings:
 :::{table} `namelist.atmosphere` settings for the regional example
 :label: africa-namelist-run
 
-| parameter                                       | value                       |
-| ----------------------------------------------- | --------------------------- |
-| `nhyd_model.config_dt`                          | `13.0`                      |
-| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
-| `nhyd_model.config_run_duration`                | `'1_12:00:00'`              |
-| `nhyd_model.config_radtlw_interval`             | `'00:30:00'`                |
-| `nhyd_model.config_radtsw_interval`             | `'00:30:00'`                |
-| `physics.config_physics_suite`                  | `'convection_permitting'`   |
-| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+| parameter                                       | value                         |
+| ----------------------------------------------- | ----------------------------- |
+| `nhyd_model.config_dt`                          | `13.0`                        |
+| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`       |
+| `nhyd_model.config_run_duration`                | `'1_12:00:00'`                |
+| `nhyd_model.config_len_disp`                    | `3000.0` (meters) [^len-disp] |
+| `limited_area.config_apply_lbcs`                | `true`                        |
+| `physics.config_radtlw_interval`                | `'00:30:00'`                  |
+| `physics.config_radtsw_interval`                | `'00:30:00'`                  |
+| `physics.config_physics_suite`                  | `'convection_permitting'`     |
+| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'`   |
 
 :::
 
-👆 Note that we have set a much smaller time step than in the coarse global example,
+[^len-disp]:
+    Horizontal length scale for Smagorinsky diffusion (meters).
+    We have to set it because `nominalMinDc` is 0 in our static file.
+
+    This is a hidden option; add it to the end of its section (`nhyd_model`).
+
+👆 Note that we have set a much smaller time step than in the {ref}`coarse global example <global-namelist-run>`,
+we turn on application of LBCs,
 we use the default RT interval,
 and we have selected the convection-permitting physics suite.
 
