@@ -3,6 +3,7 @@ name: GitHub Pages Deploy
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 env:
   BASE_URL: /${{ github.event.repository.name }}
 permissions:
