@@ -40,6 +40,9 @@ Now we edit the `init_atmosphere` config files to set up for generating the stat
 
 Update `namelist.init_atmosphere` with these settings:
 
+:::{table} `namelist.init_atmosphere` settings for static file creation for the global example
+:label: global-namelist-static
+
 | parameter                                       | value                                    |
 | ----------------------------------------------- | ---------------------------------------- |
 | `nhyd_model.config_init_case`                   | `7` [^init-case7]                        |
@@ -52,6 +55,8 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_input_sst`               | `false`                                  |
 | `preproc_stages.config_frac_seaice`             | `false`                                  |
 | `decomposition.config_block_decomp_file_prefix` | `'x1.10242.graph.info.part.'`            |
+
+:::
 
 [^init-case7]: Case 7 is the "real-data initialization" case.
 
@@ -152,6 +157,9 @@ On Derecho, this tool is available at
 
 Update `namelist.init_atmosphere` with these settings:
 
+:::{table} `namelist.init_atmosphere` settings for initial conditions for the global example
+:label: global-namelist-ic
+
 | parameter                                       | value                         |
 | ----------------------------------------------- | ----------------------------- |
 | `nhyd_model.config_init_case`                   | `7`                           |
@@ -165,6 +173,8 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_input_sst`               | `false`                       |
 | `preproc_stages.config_frac_seaice`             | `true`                        |
 | `decomposition.config_block_decomp_file_prefix` | `'x1.10242.graph.info.part.'` |
+
+:::
 
 Then, in `streams.init_atmosphere`, set the input file name template to `x1.10242.static.nc`
 (the static file we just created),
@@ -189,6 +199,9 @@ See Section 3.2 in the [official virtual tutorial](https://www2.mmm.ucar.edu/pro
 
 Update `namelist.atmosphere` with these settings:
 
+:::{table} `namelist.atmosphere` settings for the global example
+:label: global-namelist-run
+
 | parameter                                       | value                         |
 | ----------------------------------------------- | ----------------------------- |
 | `nhyd_model.config_dt`                          | `1200.0`                      |
@@ -197,6 +210,8 @@ Update `namelist.atmosphere` with these settings:
 | `nhyd_model.config_radtlw_interval`             | `'01:00:00'`                  |
 | `nhyd_model.config_radtsw_interval`             | `'01:00:00'`                  |
 | `decomposition.config_block_decomp_file_prefix` | `'x1.10242.graph.info.part.'` |
+
+:::
 
 Then, in `streams.atmosphere`, set the input file name template to `x1.10242.init.nc`
 (the initial conditions file we just created).
@@ -306,6 +321,9 @@ ln -s /glade/derecho/scratch/zmoon/mpas-africa/FILE:* .
 
 Update `namelist.init_atmosphere` with these settings:
 
+:::{table} `namelist.init_atmosphere` settings for initial conditions for the regional example
+:label: africa-namelist-ic
+
 | parameter                                       | value                       |
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_init_case`                   | `7`                         |
@@ -319,6 +337,8 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_input_sst`               | `false`                     |
 | `preproc_stages.config_frac_seaice`             | `true`                      |
 | `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+:::
 
 Then, in `streams.init_atmosphere`, set the input file name template to `Africa.static.nc`
 and the output file name template to `Africa.init.nc`.
@@ -353,6 +373,9 @@ qsub init.pbs
 
 Update `namelist.init_atmosphere` with these settings:
 
+:::{table} `namelist.init_atmosphere` settings for BC generation for the regional example
+:label: africa-namelist-bc
+
 | parameter                                       | value                       |
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_init_case`                   | `9`                         |
@@ -367,6 +390,8 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_input_sst`               | `false`                     |
 | `preproc_stages.config_frac_seaice`             | `true`                      |
 | `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+:::
 
 👆 The differences are that now we are using init case 9,
 and we need to set a stop time.
@@ -386,6 +411,9 @@ We will again skip creating [surface update](#sfc-update) files.
 
 Update `namelist.atmosphere` with these settings:
 
+:::{table} `namelist.atmosphere` settings for the regional example
+:label: africa-namelist-run
+
 | parameter                                       | value                       |
 | ----------------------------------------------- | --------------------------- |
 | `nhyd_model.config_dt`                          | `13.0`                      |
@@ -395,6 +423,8 @@ Update `namelist.atmosphere` with these settings:
 | `nhyd_model.config_radtsw_interval`             | `'00:30:00'`                |
 | `physics.config_physics_suite`                  | `'convection_permitting'`   |
 | `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+:::
 
 👆 Note that we have set a much smaller time step than in the coarse global example,
 we use the default RT interval,
