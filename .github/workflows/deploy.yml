@@ -19,6 +19,9 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        shell: bash -leo pipefail {0}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -26,15 +29,83 @@ jobs:
       - name: Set up Pages
         uses: actions/configure-pages@v5
 
-      - name: Set up Python
+      - name: Set up conda env
         uses: mamba-org/setup-micromamba@v2
         with:
           environment-file: environment.yml
           cache-environment: true
+          # create-args: >-
+          #   libegl
+          #   libgles
+          #   mesalib
+          #   ipywidgets
+          #   trame
+          #   trame-vtk
+          #   trame-vuetify
+
+      - name: Install JB2
+        run: python -m pip install -U --pre "jupyter-book==2.*" --no-deps -v
+
+      # - name: Set up PyVista
+      #   # libglx-mesa0, libgl1, xvfb already present in ubuntu-24.04
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y libgl1-mesa-dri
+      #     # sudo apt-get install -y libosmesa6
+
+      # - name: Start xvfb
+      #   run: python -c "import pyvista as pv; pv.start_xvfb()"
+
+      # - name: PyVista test
+      #   # xvfb-run -s "-screen 0 1024x768x24" python -c '
+      #   run: |
+      #     python -c '
+      #     import os
+      #     import vtk
+      #     import pyvista as pv
+
+      #     # pv.BUILDING_GALLERY = True
+
+      #     print("=== Environment variables ===")
+      #     print("VTK_DEFAULT_OPENGL_WINDOW =", os.environ.get("VTK_DEFAULT_OPENGL_WINDOW"))
+      #     print("PYVISTA_OFF_SCREEN =", os.environ.get("PYVISTA_OFF_SCREEN"))
+
+      #     print("\n=== VTK backend check ===")
+      #     rw = vtk.vtkRenderWindow()
+      #     print("RenderWindow backend:", rw.GetClassName())
+
+      #     print("\n=== PyVista backend check ===")
+      #     # print("PyVista rendering_backend:", pv.global_theme.rendering_backend)
+
+      #     # Force PyVista to off-screen if not already
+      #     # pv.global_theme.off_screen = True
+      #     print("PyVista OFF_SCREEN before:", pv.OFF_SCREEN)
+      #     pv.OFF_SCREEN = True
+
+      #     print("\n=== Rendering test ===")
+      #     sphere = pv.Sphere()
+      #     plotter = pv.Plotter(off_screen=True)
+      #     plotter.add_mesh(sphere, color="tomato")
+      #     plotter.show(screenshot="backend_test.png")
+      #     print("Rendered sphere saved as backend_test.png")
+      #     '
+      #   env:
+      #     PYVISTA_OFF_SCREEN: true
+      #     # VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
+      #     # VTK_DEFAULT_OPENGL_WINDOW: vtkXOpenGLRenderWindow
+
+      # JB2 has --execute, but this way we can see how long it takes
+      - name: Execute the notebook
+        run: jupyter nbconvert --to notebook --execute --inplace 03-viz.ipynb
+        env:
+          PYVISTA_OFF_SCREEN: true
+          # VTK_DEFAULT_BACKEND: X
+          # VTK_USE_OSMESA: "1"
+          # VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
+          # VTK_DEFAULT_OPENGL_WINDOW: vtkXOpenGLRenderWindow
 
       - name: Build HTML
-        run: jupyter-book build --html --execute --strict --ci
-        shell: micromamba-shell {0}
+        run: jupyter book build --html --strict --ci
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
