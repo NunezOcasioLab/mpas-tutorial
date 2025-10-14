@@ -170,13 +170,15 @@ Then, in `streams.init_atmosphere`, set the input file name template to `x1.1024
 (the static file we just created),
 and the output file name template to `Africa.init.nc`.
 
-Submit the job.
+Submit the job (same one we used to create the static file):
 
 ```bash
 qsub init_real.pbs
 ```
 
 ```{note}
+:label: sfc-update
+
 For simulations longer than a few days,
 you would likely want to also create SST and sea-ice update files.
 This uses init case 8, the "surface field initialization" case.
@@ -288,6 +290,8 @@ cp ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
 
 Note that we link a static file instead of a grid file
 (we're skipping static file creation in this example).
+See Section 5.1 of the [official virtual tutorial](https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/)
+for some guidance on creating regional static files.
 
 ## Initial conditions
 
@@ -319,7 +323,29 @@ Update `namelist.init_atmosphere` with these settings:
 Then, in `streams.init_atmosphere`, set the input file name template to `Africa.static.nc`
 and the output file name template to `Africa.init.nc`.
 
-TODO: job
+Create a job script to run the model initialization program.
+
+```{code} bash
+:filename: init.pbs
+
+#!/usr/bin/env bash
+#PBS -N init
+#PBS -q main
+#PBS -l job_priority=regular
+#PBS -A UTAM0025
+#PBS -l walltime=01:30:00
+#PBS -l select=2:ncpus=128:mpiprocs=120:mem=235gb
+
+source ~/mpas-modules-intel.sh
+
+mpiexec ./init_atmosphere_model
+```
+
+Submit the job.
+
+```bash
+qsub init.pbs
+```
 
 (africa-bc)=
 
@@ -342,14 +368,89 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_frac_seaice`             | `true`                      |
 | `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
 
-The differences being that now we are using init case 9,
+👆 The differences are that now we are using init case 9,
 and we need to set a stop time.
 
 Then, in `streams.init_atmosphere`, set the input file name template to `Africa.init.nc`
 and the LBC output interval to `1:00:00` (hourly).
 
-TODO: job
+Submit the job (same one we used to create the initial conditions):
+
+```bash
+qsub init.pbs
+```
+
+We will again skip creating [surface update](#sfc-update) files.
 
 ## Run the model
 
-TODO: edit diag streams to include isobaric variables
+Update `namelist.atmosphere` with these settings:
+
+| parameter                                       | value                       |
+| ----------------------------------------------- | --------------------------- |
+| `nhyd_model.config_dt`                          | `13.0`                      |
+| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
+| `nhyd_model.config_run_duration`                | `'3_00:00:00'`              |
+| `nhyd_model.config_radtlw_interval`             | `'00:30:00'`                |
+| `nhyd_model.config_radtsw_interval`             | `'00:30:00'`                |
+| `physics.config_physics_suite`                  | `'convection_permitting'`   |
+| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+
+👆 Note that we have set a much smaller time step than in the coarse global example,
+we use the default RT interval,
+and we have selected the convection-permitting physics suite.
+
+Then, in `streams.atmosphere`
+
+- set the input file name template to `Africa.init.nc`
+- set the restart output interval to `3_00:00:00` (the end of our run)
+- set the diagnostics output interval to `1:00:00` (hourly)
+- set the LBC input interval to `1:00:00` to match our LBC files
+
+Finally, in `stream_list.atmosphere.diagnostics`, replace the contents with
+
+```{code} none
+:filename: stream_list.atmosphere.diagnostics
+:caption: Note isobaric diagnostics
+
+initial_time
+xtime
+Time
+olrtoa
+rainc
+rainnc
+t_isobaric
+uzonal_isobaric
+umeridional_isobaric
+vorticity_isobaric
+```
+
+👆 In the output diag files, the `*_isobaric` variables will be on pressure levels,
+specifically the 27 ERA5 levels from 100 to 1000 hPa.
+
+Create a job script to run the model.
+
+```{code} bash
+:filename: run.pbs
+
+#!/usr/bin/env bash
+#PBS -N run
+#PBS -q main
+#PBS -l job_priority=regular
+#PBS -A UTAM0025
+#PBS -l walltime=12:00:00
+#PBS -l select=45:ncpus=128:mpiprocs=120:mem=235gb
+
+source ~/mpas-modules-intel.sh
+
+mpiexec ./atmosphere_model
+```
+
+👆 Note that the product of the number of nodes (`select`)
+and the number of MPI processes per node (`mpiprocs`) matches our second partition file.
+
+Submit the job.
+
+```bash
+qsub run.pbs
+```
