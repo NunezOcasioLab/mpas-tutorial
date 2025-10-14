@@ -178,7 +178,7 @@ Update `namelist.init_atmosphere` with these settings:
 
 Then, in `streams.init_atmosphere`, set the input file name template to `x1.10242.static.nc`
 (the static file we just created),
-and the output file name template to `Africa.init.nc`.
+and the output file name template to `x1.10242.init.nc`.
 
 Submit the job (same one we used to create the static file):
 
