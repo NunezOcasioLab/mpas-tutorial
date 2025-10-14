@@ -278,6 +278,11 @@ We will use the limited-area domain as in:
 
 created by rotating, moving, and cropping the `x5.8060930` global 15–3-km elliptical refinement mesh.
 
+```{figure} africa-domain.png
+
+Made with [GeoVista](viz#geovista).
+```
+
 ## Run directory
 
 As before, we first build out our run directory.
