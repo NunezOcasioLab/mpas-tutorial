@@ -31,7 +31,7 @@ ln -s ~/MPAS-Model_v8.3/atmosphere_model .
 cp ~/MPAS-Model_v8.3/namelist.atmosphere .
 cp ~/MPAS-Model_v8.3/streams.atmosphere .
 cp ~/MPAS-Model_v8.3/stream_list.atmosphere.* .
-cp ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
+ln -s ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
 ```
 
 ## Static file
@@ -300,7 +300,7 @@ ln -s ~/MPAS-Model_v8.3/atmosphere_model .
 cp ~/MPAS-Model_v8.3/namelist.atmosphere .
 cp ~/MPAS-Model_v8.3/streams.atmosphere .
 cp ~/MPAS-Model_v8.3/stream_list.atmosphere.* .
-cp ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
+ln -s ~/MPAS-Model_v8.3/src/core_atmosphere/physics/physics_wrf/files/* .
 ```
 
 Note that we link a static file instead of a grid file
