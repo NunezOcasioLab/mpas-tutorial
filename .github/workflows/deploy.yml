@@ -33,7 +33,7 @@ jobs:
           cache-environment: true
 
       - name: Build HTML Assets
-        run: jupyter-book build --html
+        run: jupyter-book build --html --execute --ci
         shell: micromamba-shell {0}
 
       - name: Upload artifact
