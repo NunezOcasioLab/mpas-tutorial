@@ -7,6 +7,8 @@ label: page:run
 As in {ref}`page:build`, we are
 [on Derecho](https://ncar-hpc-docs.readthedocs.io/en/latest/compute-systems/derecho/#logging-in).
 
+(sec:run-global)=
+
 # Global
 
 We will use the quasi-uniform 240-km mesh (10242 cells),
@@ -313,6 +315,7 @@ We will use the limited-area domain as in:
 - https://doi.org/10.22541/essoar.174547944.43729039/v1
 
 created by rotating, moving, and cropping the `x5.8060930` global 15–3-km elliptical refinement mesh.
+It has 6092549 cells (~6M; ~600x the {ref}`global example<sec:run-global>`).
 
 ```{figure} africa-domain.png
 
