@@ -377,7 +377,7 @@ for some guidance on creating regional static files.
 **12 September 2017, 00 UTC**, the day when the AEW that would become Hurricane Maria left the African coast.
 
 As in [the global example](#global-ic), we will link the needed WPS intermediate file
-(and those we need for [the BCs](#africa-bc) as well).
+(and those we need for [the LBCs](#africa-bc) as well).
 
 ```bash
 ln -s /glade/derecho/scratch/zmoon/mpas-africa/FILE:* .
@@ -388,20 +388,20 @@ Update `namelist.init_atmosphere` with these settings:
 :::{table} `namelist.init_atmosphere` settings for initial conditions for the regional example
 :label: africa-namelist-ic
 
-| parameter                                       | value                       |
-| ----------------------------------------------- | --------------------------- |
-| `nhyd_model.config_init_case`                   | `7`                         |
-| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'`     |
-| `data_sources.config_met_prefix`                | `'FILE'`                    |
-| `data_sources.config_noahmp_static`             | `false` [^noahmp]           |
-| `preproc_stages.config_static_interp`           | `false`                     |
-| `preproc_stages.config_native_gwd_static`       | `false`                     |
-| `preproc_stages.config_native_gwd_gsl_static`   | `false`                     |
-| `preproc_stages.config_vertical_grid`           | `true`                      |
-| `preproc_stages.config_met_interp`              | `true`                      |
-| `preproc_stages.config_input_sst`               | `false`                     |
-| `preproc_stages.config_frac_seaice`             | `true`                      |
-| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'` |
+| parameter                                       | value                           |
+| ----------------------------------------------- | ------------------------------- |
+| `nhyd_model.config_init_case`                   | `7`                             |
+| `nhyd_model.config_start_time`                  | `'2017-09-12_00:00:00'` [^stop] |
+| `data_sources.config_met_prefix`                | `'FILE'`                        |
+| `data_sources.config_noahmp_static`             | `false` [^noahmp]               |
+| `preproc_stages.config_static_interp`           | `false`                         |
+| `preproc_stages.config_native_gwd_static`       | `false`                         |
+| `preproc_stages.config_native_gwd_gsl_static`   | `false`                         |
+| `preproc_stages.config_vertical_grid`           | `true`                          |
+| `preproc_stages.config_met_interp`              | `true`                          |
+| `preproc_stages.config_input_sst`               | `false`                         |
+| `preproc_stages.config_frac_seaice`             | `true`                          |
+| `decomposition.config_block_decomp_file_prefix` | `'Africa.graph.info.part.'`     |
 
 :::
 
@@ -411,6 +411,10 @@ Update `namelist.init_atmosphere` with these settings:
     disable collecting input fields for Noah-MP.
 
     This is a hidden option; add it to the end of its section (`data_sources`).
+
+[^stop]:
+    We don't need to set stop time (`nhyd_model.config_stop_time`) yet,
+    but we will when we {ref}`generate LBCs<africa-namelist-bc>`.
 
 Then, in `streams.init_atmosphere`, set the input file name template to `Africa.static.nc`
 and the output file name template to `Africa.init.nc`.
