@@ -243,8 +243,8 @@ Update `namelist.atmosphere` with these settings:
 | `nhyd_model.config_dt`                          | `1200.0`                      |
 | `nhyd_model.config_start_time`                  | `'2017-09-20_00:00:00'`       |
 | `nhyd_model.config_run_duration`                | `'3_00:00:00'`                |
-| `nhyd_model.config_radtlw_interval`             | `'01:00:00'`                  |
-| `nhyd_model.config_radtsw_interval`             | `'01:00:00'`                  |
+| `physics.config_radtlw_interval`                | `'01:00:00'`                  |
+| `physics.config_radtsw_interval`                | `'01:00:00'`                  |
 | `decomposition.config_block_decomp_file_prefix` | `'x1.10242.graph.info.part.'` |
 
 :::
