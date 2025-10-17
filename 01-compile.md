@@ -96,13 +96,15 @@ export LD_LIBRARY_PATH="/glade/u/apps/derecho/23.06/spack/opt/spack/parallel-net
 
 ::::
 
-Select one of the above module sets and save it to a file:
+Select one of the above module sets and save it to a file[^text]:
 `~/mpas-modules-intel.sh`.
 Then, load the modules.
 
 ```bash
 source ~/mpas-modules-intel.sh
 ```
+
+[^text]: For example, in the terminal, using `vi` (`vim`) or `nano`.
 
 Run `module list` to verify that the correct modules are loaded.
 

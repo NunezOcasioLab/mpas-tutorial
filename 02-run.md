@@ -46,7 +46,7 @@ Update `namelist.init_atmosphere` with these settings:
 :::{table} `namelist.init_atmosphere` settings for static file creation for the global example
 :label: global-namelist-static
 
-| parameter                                       | value                                    |
+| parameter [^params]                             | value                                    |
 | ----------------------------------------------- | ---------------------------------------- |
 | `nhyd_model.config_init_case`                   | `7` [^init-case7]                        |
 | `data_sources.geog_data_path`                   | `'/glade/work/wrfhelp/WPS_GEOG/'` [^gdp] |
@@ -64,6 +64,11 @@ Update `namelist.init_atmosphere` with these settings:
 [^init-case7]: Case 7 is the "real-data initialization" case.
 
 [^gdp]: Another geog data path option is `/glade/campaign/mmm/wmr/mpas_tutorial/mpas_static/`.
+
+[^params]:
+    See Section 7.2 ("Creating real-data ICs") and Appendix A ("Initialization Namelist Options")
+    in the [user guide](https://www2.mmm.ucar.edu/projects/mpas/mpas_atmosphere_users_guide_8.3.0.pdf)
+    for more information about these parameters.
 
 Then, in `streams.init_atmosphere`, set the input file name template to `x1.10242.grid.nc`,
 and the output file name template to `x1.10242.static.nc`.
@@ -183,13 +188,15 @@ Update `namelist.init_atmosphere` with these settings:
 | `preproc_stages.config_static_interp`           | `false`                       |
 | `preproc_stages.config_native_gwd_static`       | `false`                       |
 | `preproc_stages.config_native_gwd_gsl_static`   | `false`                       |
-| `preproc_stages.config_vertical_grid`           | `true`                        |
+| `preproc_stages.config_vertical_grid`           | `true` [^vert]                |
 | `preproc_stages.config_met_interp`              | `true`                        |
 | `preproc_stages.config_input_sst`               | `false`                       |
 | `preproc_stages.config_frac_seaice`             | `true`                        |
 | `decomposition.config_block_decomp_file_prefix` | `'x1.10242.graph.info.part.'` |
 
 :::
+
+[^vert]: We will use the model's default vertical grid, but note it can be adjusted using the `vertical_grid` section.
 
 Then, in `streams.init_atmosphere`, set the input file name template to `x1.10242.static.nc`
 (the static file we just created),
