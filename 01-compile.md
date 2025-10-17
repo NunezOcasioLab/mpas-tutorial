@@ -46,31 +46,10 @@ After our session starts, we need to load some modules.
 
 ::::{tab-set}
 
-:::{tab-item} Intel 2023
-
-```{code} bash
-:filename: modules-intel-2023.sh
-:caption: These are the modules we've used for the referenced papers.
-
-# NCAR Derecho modules for MPAS-A
-# `source` or `.` this file to use
-
-module --force purge
-module load ncarenv/23.06
-module load intel/2023.0.0
-module load cray-mpich/8.1.25
-module load parallel-netcdf/1.12.3
-
-# Hack to get pnetcdf working again
-export LD_LIBRARY_PATH="/glade/u/apps/derecho/23.06/spack/opt/spack/parallel-netcdf/1.12.3/cray-mpich/8.1.25/oneapi/2023.0.0/blyr/lib:$LD_LIBRARY_PATH"
-```
-
-:::
-
 :::{tab-item} Intel 2025
 
 ```{code} bash
-:filename: modules-intel-2025.sh
+:filename: ~/mpas-modules-intel.sh
 :caption: Updated modules, using `ifx` instead of `ifort`.
 
 # NCAR Derecho modules for MPAS-A
@@ -87,6 +66,27 @@ export LD_LIBRARY_PATH="/glade/u/apps/derecho/24.12/spack/opt/spack/parallel-net
 
 # Tell mpifort to use ifx
 export MPICH_FC=ifx
+```
+
+:::
+
+:::{tab-item} Intel 2023
+
+```{code} bash
+:filename: ~/mpas-modules-intel.sh
+:caption: These are the modules we've used for the referenced papers.
+
+# NCAR Derecho modules for MPAS-A
+# `source` or `.` this file to use
+
+module --force purge
+module load ncarenv/23.06
+module load intel/2023.0.0
+module load cray-mpich/8.1.25
+module load parallel-netcdf/1.12.3
+
+# Hack to get pnetcdf working again
+export LD_LIBRARY_PATH="/glade/u/apps/derecho/23.06/spack/opt/spack/parallel-netcdf/1.12.3/cray-mpich/8.1.25/oneapi/2023.0.0/blyr/lib:$LD_LIBRARY_PATH"
 ```
 
 :::
