@@ -129,6 +129,18 @@ qstat -u $USER -f -w
 
 :::
 
+:::{dropdown} Contingency
+
+Try switching from the `main` to the `develop`
+[queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues).
+If that doesn't help, copy the static file from Kelly.
+
+```bash
+cp /glade/derecho/scratch/knocasio/mpas-global240km/x1.10242.static.nc .
+```
+
+:::
+
 (global-ic)=
 
 ## Initial conditions
@@ -197,6 +209,18 @@ you would likely want to also create SST and sea-ice update files.
 This uses init case 8, the "surface field initialization" case.
 See Section 3.2 in the [official virtual tutorial](https://www2.mmm.ucar.edu/projects/mpas/tutorial/Virtual2025/).
 ```
+
+:::{dropdown} Contingency
+
+Try switching from the `main` to the `develop`
+[queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues).
+If that doesn't help, copy the init file from Kelly.
+
+```bash
+cp /glade/derecho/scratch/knocasio/mpas-global240km/x1.10242.init.nc .
+```
+
+:::
 
 ## Run the model
 
@@ -405,6 +429,18 @@ Submit the job.
 qsub init.pbs
 ```
 
+:::{dropdown} Contingency
+
+Try switching from the `main` to the `develop`
+[queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues).
+If that doesn't help, link the init file from Kelly.
+
+```bash
+ln -s /glade/derecho/scratch/knocasio/mpas-africa/Africa.init.nc .
+```
+
+:::
+
 (africa-bc)=
 
 ## Boundary conditions
@@ -446,6 +482,18 @@ qsub init.pbs
 ```
 
 We will again skip creating [surface update](#sfc-update) files.
+
+:::{dropdown} Contingency
+
+Try switching from the `main` to the `develop`
+[queue](https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/charging/#derecho-queues).
+If that doesn't help, link the LBC files from Kelly.
+
+```bash
+ln -s /glade/derecho/scratch/knocasio/mpas-africa/lbc.*.nc .
+```
+
+:::
 
 ## Run the model
 
