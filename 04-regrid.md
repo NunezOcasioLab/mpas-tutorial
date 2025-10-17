@@ -8,7 +8,7 @@ label: page:regrid
 Some of the below examples may be easier to get going on
 [Casper](https://ncar-hpc-docs.readthedocs.io/en/latest/compute-systems/casper/)[^casper]
 (NCO and CDO are already installed, etc.),
-but it also should be doable on your local machine or another HPC.
+but they also should be doable on your local machine or another HPC.
 ```
 
 [^casper]: Or Derecho, but Derecho is usually overkill for this kind of task.
