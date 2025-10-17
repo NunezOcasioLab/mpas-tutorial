@@ -4,6 +4,9 @@ subtitle: Building MPAS on NSF NCAR Derecho
 label: page:build
 ---
 
+To begin,
+[log in to Derecho](https://ncar-hpc-docs.readthedocs.io/en/latest/compute-systems/derecho/#logging-in).
+
 First we need to clone the model repository.
 We will use Kelly's fork, which adds additional vertical levels (based on ERA5)
 and isobaric diagnostics.

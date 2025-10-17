@@ -4,6 +4,9 @@ subtitle: Running MPAS on NSF NCAR Derecho
 label: page:run
 ---
 
+As in {ref}`page:build`, we are
+[on Derecho](https://ncar-hpc-docs.readthedocs.io/en/latest/compute-systems/derecho/#logging-in).
+
 # Global
 
 We will use the quasi-uniform 240-km mesh (10242 cells),
