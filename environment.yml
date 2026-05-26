@@ -3,15 +3,11 @@ channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python =3.12
+  - python =3.13
   - pip
   #
   # Jupyter Book v2
-  - ipykernel
-  - jupyter_core
-  - jupyter_server
-  - nodeenv >=1.9.1
-  - platformdirs >=4.2.2
+  - jupyter-book ==2.1.*
   #
   # Viz examples
   - cartopy
