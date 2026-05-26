@@ -34,8 +34,6 @@ jobs:
         with:
           environment-file: environment.yml
           cache-environment: true
-      - name: Install JB2
-        run: python -m pip install -U --pre "jupyter-book==2.*" --no-deps -v
 
       # JB2 has --execute, but this way we can see how long it takes
       - name: Execute the notebook
