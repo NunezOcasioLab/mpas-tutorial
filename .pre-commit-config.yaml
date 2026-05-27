@@ -14,19 +14,19 @@ repos:
         args: ["--markdown-linebreak-ext=md,markdown"]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.13.2"
+    rev: "v0.15.14"
     hooks:
       - id: ruff-check
         args: [--fix, --show-fixes]
       - id: ruff-format
 
   - repo: https://github.com/rbubley/mirrors-prettier
-    rev: "v3.6.2"
+    rev: "v3.8.3"
     hooks:
       - id: prettier
 
   - repo: https://github.com/kynan/nbstripout
-    rev: "0.8.1"
+    rev: "0.9.1"
     hooks:
       - id: nbstripout
         args:
